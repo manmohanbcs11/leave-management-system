@@ -11,7 +11,7 @@ export const authorizer = async (req: Request, res: Response, callback: Function
     if (err) {
       return res.status(httpStatusCode.unauthorized).send({ message: 'Failed to authenticate.' });
     }
-    req.user = data.user;
+    // req.user = data.user;
     callback();
   });
 }

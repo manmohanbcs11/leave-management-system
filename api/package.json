@@ -1,7 +1,7 @@
 {
-  "name": "leave-portal-backend",
+  "name": "leave-management-system",
   "version": "1.0.0",
-  "description": "The backend of the organization's leave portal operates APIs to manage all aspects of leave applications.",
+  "description": "Backend of leave management system that operates APIs to manage all aspects of leave applications.",
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
