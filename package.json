@@ -1,0 +1,36 @@
+{
+  "name": "leave-portal-backend",
+  "version": "1.0.0",
+  "description": "The backend of the organization's leave portal operates APIs to manage all aspects of leave applications.",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "start-dev": "tsc && nodemon app.ts",
+    "test": "mocha",
+    "test-single": "mocha --timeout 0 --unhandled-rejections=strict --require ts-node/register"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/chai": "^4.3.14",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "chai": "^4.3.7",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react": "^7.34.1",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.4"
+  }
+}
