@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { ApiError, ApiResponse } from './apiResponse';
 import { Database } from './database';
@@ -30,6 +31,12 @@ export class Util {
     } else {
       throw new ApiError(httpStatusCode.badRequest, 'Invalid request body.');
     }
+  }
+
+  public static async generatePasswordHash(password: string): Promise<string> {
+    const salt = await bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hashSync(password, salt);
+    return hash;
   }
 }
 
