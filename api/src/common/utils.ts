@@ -21,8 +21,8 @@ export class Util {
         } else if (key === 'email') {
           if (!body[key].match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
             throw new ApiError(httpStatusCode.badRequest, 'Invalid email address.');
-          } else if (Util.getDomainFromEmail(body[key]) !== '2pirad.com') {
-            throw new ApiError(httpStatusCode.badRequest, 'Only 2pirad accounts are allowed.');  
+          } else if (Util.getDomainFromEmail(body[key]) !== process.env.ORG_DOMAIN) {
+            throw new ApiError(httpStatusCode.badRequest, `Only ${process.env.ORG_DOMAIN} accounts are allowed.`);  
           }
         } else if (key === 'password') {
           if (body[key].length < 6) {
