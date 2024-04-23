@@ -1,7 +1,7 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface LeaveRequest extends Document {
-  employeeId: string;
+  userId: string;
   leaveType: string;
   startDate: number;
   endDate: number;
@@ -13,7 +13,7 @@ export interface LeaveRequest extends Document {
 }
 
 const leaveRequestSchema: Schema<LeaveRequest> = new Schema({
-  employeeId: {
+  userId: {
     type: String,
     required: true
   },

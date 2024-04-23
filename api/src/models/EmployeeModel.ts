@@ -3,6 +3,7 @@ import { UserRole } from '../common/userRole';
 
 export interface Employee extends Document {
   name: string;
+  empId: number;
   email: string;
   password: string;
   role: UserRole;
@@ -18,6 +19,11 @@ const employeeSchema: Schema<Employee> = new Schema({
   name: {
     type: String,
     required: true
+  },
+  empId: {
+    type: Number,
+    required: true,
+    unique: true
   },
   email: {
     type: String,

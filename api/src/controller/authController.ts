@@ -28,6 +28,7 @@ export class AuthController extends Util {
 
       user = await EmployeeModel.create({
         name: req.body.name,
+        empId: req.body.empId,
         email: req.body.email,
         password: securePassword,
         role: userRole,

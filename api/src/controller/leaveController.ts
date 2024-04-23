@@ -21,7 +21,7 @@ export class LeaveController extends Util {
       const userId: string = req.body.user.id;
       console.log('Getting all requested leaves for user with id:', userId);
 
-      const result: LeaveRequest[] = await LeaveRequestModel.find({ employeeId: userId }).exec();
+      const result: LeaveRequest[] = await LeaveRequestModel.find({ userId: userId }).exec();
       response = new ApiResponse(httpStatusCode.success, `Leaves fetched successfully.`, result);
     } catch (err) {
       response = new ApiResponse(err?.statusCode ? err.statusCode : httpStatusCode.internalServerError, err.message);
@@ -56,9 +56,9 @@ export class LeaveController extends Util {
       }
 
       Util.validateBody(req.body);
-      console.log('Creating leave request for user with id:', req.body.employeeId);
+      console.log('Creating leave request for user with id:', req.body.userId);
 
-      const employee: Employee = await EmployeeModel.findById(req.body.employeeId).exec();
+      const employee: Employee = await EmployeeModel.findById(req.body.userId).exec();
       if (Util.isEmpty(employee)) {
         return new ApiResponse(httpStatusCode.badRequest, `Requester Employee not found.`);
       }

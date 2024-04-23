@@ -21,6 +21,8 @@ export class Util {
         } else if (key === 'email') {
           if (!body[key].match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
             throw new ApiError(httpStatusCode.badRequest, 'Invalid email address.');
+          } else if (Util.getDomainFromEmail(body[key]) !== '2pirad.com') {
+            throw new ApiError(httpStatusCode.badRequest, 'Only 2pirad accounts are allowed.');  
           }
         } else if (key === 'password') {
           if (body[key].length < 6) {
@@ -32,6 +34,16 @@ export class Util {
       throw new ApiError(httpStatusCode.badRequest, 'Please pass all the mandatory fields in request.');
     }
   }
+
+  private static getDomainFromEmail(email: string): string | null {
+    const parts = email.split('@');
+    if (parts.length === 2) {
+        return parts[1];
+    } else {
+      throw new ApiError(httpStatusCode.badRequest, 'Invalid email address.');
+    }
+}
+
 
   public static async generatePasswordHash(password: string): Promise<string> {
     const salt = await bcrypt.genSaltSync(10);
