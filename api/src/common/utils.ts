@@ -29,7 +29,7 @@ export class Util {
         }
       }
     } else {
-      throw new ApiError(httpStatusCode.badRequest, 'Invalid request body.');
+      throw new ApiError(httpStatusCode.badRequest, 'Please pass all the mandatory fields in request.');
     }
   }
 

@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
+import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { ApiResponse } from "../common/apiResponse";
 import { httpStatusCode } from "../common/httpStatusCodes";
-import { Util } from "../common/utils";
-import UserModel, { User } from "../models/UserModel";
 import { UserRole } from '../common/userRole';
+import { Util } from "../common/utils";
+import EmployeeModel, { Employee } from "../models/EmployeeModel";
 
 export class AuthController extends Util {
   constructor() {
@@ -13,10 +14,10 @@ export class AuthController extends Util {
     this.login = this.login.bind(this);
   }
 
-  public async signup(req: any) {
+  public async signup(req: Request) {
     let response: ApiResponse;
     try {
-      let user: User = await UserModel.findOne({ email: req.body.email });
+      let user: Employee = await EmployeeModel.findOne({ email: req.body.email });
       if (user) {
         return new ApiResponse(httpStatusCode.badRequest, `User with emailId ${req.body.email} already exists.`);
       }
@@ -25,11 +26,17 @@ export class AuthController extends Util {
       const userRole = req.body.role ? UserRole[req.body.role.toUpperCase()] : UserRole.USER;
       const securePassword: string = await Util.generatePasswordHash(req.body.password);
 
-      user = await UserModel.create({
+      user = await EmployeeModel.create({
         name: req.body.name,
         email: req.body.email,
         password: securePassword,
-        role: userRole
+        role: userRole,
+        department: req.body.department,
+        jobTitle: req.body?.jobTitle,
+        managerId: req.body?.managerId,
+        leaveBalance: req.body?.leaveBalance,
+        createdDate: Date.now(),
+        updatedDate: Date.now()
       });
       const data = {
         user: {
@@ -45,11 +52,11 @@ export class AuthController extends Util {
     return response;
   }
 
-  public async login(req: any) {
+  public async login(req: Request) {
     let response: ApiResponse;
     try {
       Util.validateBody(req.body);
-      const user: User = await UserModel.findOne({ email: req.body.email });
+      const user: Employee = await EmployeeModel.findOne({ email: req.body.email });
       if (!user) {
         return new ApiResponse(httpStatusCode.notFound, `Please try to login with correct credentials.`);
       }

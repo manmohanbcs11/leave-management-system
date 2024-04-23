@@ -1,8 +1,9 @@
+import { Request } from 'express';
 import { ApiResponse } from "../common/apiResponse";
 import { httpStatusCode } from "../common/httpStatusCodes";
 import { UserRole } from '../common/userRole';
 import { Util } from "../common/utils";
-import UserModel, { User } from "../models/UserModel";
+import EmployeeModel, { Employee } from "../models/EmployeeModel";
 
 export class UserController extends Util {
   constructor() {
@@ -12,13 +13,14 @@ export class UserController extends Util {
     this.deleteuser = this.deleteuser.bind(this);
   }
 
-  public async getuser(req: any) {
+  public async getuser(req: Request) {
     let response: ApiResponse;
     try {
       const userId: string = req.body.user.id;
       console.log('Getting user details with id:', userId);
-      const result: User = await UserModel.findById(userId).exec();
+      const result: Employee = await EmployeeModel.findById(userId).exec();
       if (result) {
+        result.password = undefined;
         response = new ApiResponse(httpStatusCode.success, `User fetched successfully.`, result);
       } else {
         response = new ApiResponse(httpStatusCode.notFound, `User not found.`);
@@ -29,12 +31,12 @@ export class UserController extends Util {
     return response;
   }
 
-  public async updateuser(req: any) {
+  public async updateuser(req: Request) {
     let response: ApiResponse;
     try {
       const userId: string = req.body.user.id;
       console.log('Updating user details with id:', userId);
-      const result: User = await UserModel.findByIdAndUpdate(userId, req.body, { new: true });
+      const result: Employee = await EmployeeModel.findByIdAndUpdate(userId, req.body, { new: true });
       if (result) {
         response = new ApiResponse(httpStatusCode.success, `User updated successfully.`);
       } else {
@@ -46,7 +48,7 @@ export class UserController extends Util {
     return response;
   }
 
-  public async deleteuser(req: any) {
+  public async deleteuser(req: Request) {
     let response: ApiResponse;
     try {
       const emailId: string = req.params.emailid;
@@ -56,8 +58,9 @@ export class UserController extends Util {
       }
 
       console.log('Deleting user with emailId:', emailId);
-      const result: User = await UserModel.findOneAndDelete({ email: emailId });
+      const result: Employee = await EmployeeModel.findOneAndDelete({ email: emailId });
       if (result) {
+        result.password = undefined;
         response = new ApiResponse(httpStatusCode.success, `User deleted successfully.`, result);
       } else {
         response = new ApiResponse(httpStatusCode.notFound, `User not found.`);
@@ -68,7 +71,7 @@ export class UserController extends Util {
     return response;
   }
 
-  public async createUserByAdmin(req: any) {
+  public async createUserByAdmin(req: Request) {
     let response: ApiResponse;
     try {
       const role: UserRole = req.body.user.role;
@@ -76,7 +79,7 @@ export class UserController extends Util {
         return new ApiResponse(httpStatusCode.forbidden, `Only admin can create users.`);
       }
 
-      let user: User = await UserModel.findOne({ email: req.body.email });
+      let user: Employee = await EmployeeModel.findOne({ email: req.body.email });
       if (user) {
         return new ApiResponse(httpStatusCode.badRequest, `User with emailId ${req.body.email} already exists.`);
       }
@@ -85,12 +88,20 @@ export class UserController extends Util {
       const userRole = req.body?.role ? UserRole[req.body.role.toUpperCase()] : UserRole.USER;
       const securePassword: string = await Util.generatePasswordHash(req.body.password);
 
-      user = await UserModel.create({
+      user = await EmployeeModel.create({
         name: req.body.name,
         email: req.body.email,
         password: securePassword,
-        role: userRole
+        role: userRole,
+        department: req.body.department,
+        jobTitle: req.body?.jobTitle,
+        managerId: req.body?.managerId,
+        leaveBalance: req.body?.leaveBalance,
+        createdDate: Date.now(),
+        updatedDate: Date.now()
       });
+
+      user.password = undefined;
       response = new ApiResponse(httpStatusCode.success, 'User created successfully.', user);
     } catch (err) {
       response = new ApiResponse(err?.statusCode ? err.statusCode : httpStatusCode.internalServerError, err.message);

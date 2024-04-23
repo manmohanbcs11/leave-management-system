@@ -15,4 +15,10 @@ authRouter.post('/login', async (req: Request, res: Response) => {
   await processRequest(authController.login, req, res);
 });
 
+// logout a user
+authRouter.delete('/logout', async (req: Request, res: Response) => {
+  res.clearCookie('auth-token');
+  res.status(200).send({ message: 'Logged out successfully.' });
+});
+
 export default authRouter;
