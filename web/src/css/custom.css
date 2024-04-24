@@ -1,0 +1,14 @@
+.navbar-custom-class {
+    background-color: #0e5dac;
+    color: white;
+}
+
+.custom-container {
+    justify-self: auto;
+    width: 90%;
+    height: 100vh;
+    background-color: rgba(119, 49, 146, 0.151);
+    color: rgb(41, 38, 38);
+    padding: 20px;
+    margin: 0 auto;
+}
