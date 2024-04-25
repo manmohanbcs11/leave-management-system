@@ -11,6 +11,7 @@ export class UserController extends Util {
     this.getuser = this.getuser.bind(this);
     this.updateuser = this.updateuser.bind(this);
     this.deleteuser = this.deleteuser.bind(this);
+    this.createUserByAdmin = this.createUserByAdmin.bind(this);
   }
 
   public async getuser(req: Request) {

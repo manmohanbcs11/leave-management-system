@@ -2,9 +2,11 @@ import express, { Request, Response, Router } from 'express';
 import { processRequest } from '../common/utils';
 import { LeaveController } from '../controller/leaveController';
 import { authorizer } from '../middleware/authorizer';
+import { LeaveCalendarController } from '../controller/leaveCalendarController';
 
 const leaveRouter: Router = express.Router();
 const leaveController = new LeaveController();
+const leaveCalendarController = new LeaveCalendarController();
 
 // get all leaves for a user
 leaveRouter.get('/fetchleaves', authorizer, async (req: Request, res: Response) => {
@@ -29,6 +31,16 @@ leaveRouter.put('/updateleave', authorizer, async (req: Request, res: Response) 
 // delete leave by id
 leaveRouter.delete('/deleteleave/:id', authorizer, async (req: Request, res: Response) => {
   await processRequest(leaveController.deleteLeaveById, req, res);
+});
+
+// populate leave calendar from csv file
+leaveRouter.post('/createleavecalendar', authorizer, async (req: Request, res: Response) => {
+  await processRequest(leaveCalendarController.populateLeaveCalendar, req, res);
+});
+
+// delete leave calendar
+leaveRouter.delete('/deleteleavecalendar', authorizer, async (req: Request, res: Response) => {
+  await processRequest(leaveCalendarController.deleteLeaveCalendar, req, res);
 });
 
 export default leaveRouter;
