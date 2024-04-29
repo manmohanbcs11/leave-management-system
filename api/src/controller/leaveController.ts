@@ -56,13 +56,9 @@ export class LeaveController extends Util {
       }
 
       Util.validateBody(req.body);
-      console.log('Creating leave request for user with id:', req.body.userId);
+      console.log('Creating leave request for user with id:', req.body.user.id);
 
-      const employee: Employee = await EmployeeModel.findById(req.body.userId).exec();
-      if (Util.isEmpty(employee)) {
-        return new ApiResponse(httpStatusCode.badRequest, `Requester Employee not found.`);
-      }
-
+      req.body.userId = req.body.user.id;
       req.body.createdDate = Date.now();
       req.body.updatedDate = Date.now();
       leave = await LeaveRequestModel.create(req.body);

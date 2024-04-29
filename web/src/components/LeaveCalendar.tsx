@@ -48,6 +48,7 @@ const buttonContainerStyle: React.CSSProperties = {
 };
 
 const buttonStyle: React.CSSProperties = {
+  color: 'black',
   padding: '10px 20px', // Padding for the button
   borderRadius: '5px', // Rounded corners
   border: '1px solid #ccc', // Border for the button
@@ -64,14 +65,11 @@ export const LeaveCalendar = () => {
   useEffect(() => {
     const fetchData = async (year: number) => {
       try {
-        const authToken = process.env.REACT_APP_AUTH_TOKEN || '';
-        const url = `${process.env.REACT_APP_API_URL}/leave/fetchleavecalendar`;
-
-        const response = await fetch(url, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/leave/fetchleavecalendar`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': authToken,
+            'auth-token': process.env.REACT_APP_AUTH_TOKEN || '',
           },
           body: JSON.stringify({ year, country: 'India' }),
         });

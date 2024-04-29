@@ -1,0 +1,33 @@
+.leave-detail-container {
+    padding: 20px; /* Padding around the component */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background */
+    margin-top: 20px; /* Space from the top */
+  }
+  
+  .leave-info {
+    display: flex;
+    flex-direction: column; /* Vertical layout */
+  }
+  
+  .leave-info p {
+    margin: 5px 0; /* Spacing between paragraphs */
+  }
+  
+  .leave-info strong {
+    font-weight: bold; /* Bold text for emphasis */
+  }
+  
+  .leave-info p {
+    color: #333; /* Text color */
+  }
+  
+  .error-message {
+    color: red; /* Red text for error messages */
+  }
+  
+  .loading {
+    color: #555; /* Color for loading message */
+  }
+  

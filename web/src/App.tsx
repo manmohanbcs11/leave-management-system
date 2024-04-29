@@ -12,6 +12,7 @@ import { Logout } from './components/Logout';
 import { NavBar } from './components/NavBar';
 import { Profile } from './components/Profile';
 import { Signup } from './components/Signup';
+import { LeaveDetail } from './components/LeaveDetail';
 
 function App() {
   const [alert, setAlert] = useState<{ type: string; message: string }>({ type: '', message: '' });
@@ -43,6 +44,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/leavebalance" element={<LeaveBalance />} />
             <Route path="/appliedleave" element={<AppliedLeave />} />
+            <Route path="/leave/:id" element={<LeaveDetail />} /> 
             <Route path="/requestleave" element={<LeaveRequest />} />
             <Route path="/leavepolicies" element={<LeavePolicy />} />
             <Route path="/leavecalendar" element={<LeaveCalendar />} />
