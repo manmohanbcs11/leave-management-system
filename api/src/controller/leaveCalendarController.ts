@@ -61,6 +61,19 @@ export class LeaveCalendarController extends Util {
     return response;
   }
 
+  public async getLeaveCalendar(req: Request) {
+    const year = req.body.year;
+    const country = req.body.country;
+    console.log(`Fetching leave calendar for ${country}-${year}`);
+    const calendar = await LeaveCalendar.find({ year, country });
+
+    if (Util.isEmpty(calendar)) {
+      return new ApiResponse(httpStatusCode.notFound, `No calendar found for ${country}-${year}`);
+    }
+
+    return new ApiResponse(httpStatusCode.success, `Calendar fetched successfully for ${country}-${year}`, calendar);
+  }
+
   public async deleteLeaveCalendar(req: Request) {
     const role: UserRole = req.body.user.role;
     if (role !== UserRole.ADMIN) {

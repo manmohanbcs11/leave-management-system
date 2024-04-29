@@ -38,6 +38,11 @@ leaveRouter.post('/createleavecalendar', authorizer, async (req: Request, res: R
   await processRequest(leaveCalendarController.populateLeaveCalendar, req, res);
 });
 
+// get holiday calendar
+leaveRouter.post('/fetchleavecalendar', authorizer, async (req: Request, res: Response) => {
+  await processRequest(leaveCalendarController.getLeaveCalendar, req, res);
+});
+
 // delete leave calendar
 leaveRouter.delete('/deleteleavecalendar', authorizer, async (req: Request, res: Response) => {
   await processRequest(leaveCalendarController.deleteLeaveCalendar, req, res);
