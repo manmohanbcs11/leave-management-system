@@ -32,6 +32,29 @@ export class UserController extends Util {
     return response;
   }
 
+  public async getUserManagers(req: Request) {
+    let response: ApiResponse;
+    try {
+      const userId: string = req.body.user.id;
+      console.log('Getting managers for user with id:', userId);
+      const result: Employee = await EmployeeModel.findById(userId).exec();
+      if (result) {
+        const managerIds: string[] = result.managerIds;
+        const managers = await EmployeeModel.find({ _id: { $in: managerIds } }).exec();
+        const list = managers.map((manager) => ({
+          id: manager._id,
+          name: manager.name,
+        }));
+        response = new ApiResponse(httpStatusCode.success, `Managers fetched successfully.`, list);
+      } else {
+        response = new ApiResponse(httpStatusCode.notFound, `Managers not found.`, []);
+      }
+    } catch (err) {
+      response = new ApiResponse(httpStatusCode.notFound, `Managers not found.`, []);
+    }
+    return response;
+  }
+
   public async updateuser(req: Request) {
     let response: ApiResponse;
     try {
@@ -97,7 +120,7 @@ export class UserController extends Util {
         role: userRole,
         department: req.body.department,
         jobTitle: req.body?.jobTitle,
-        managerId: req.body?.managerId,
+        managerIds: req.body?.managerIds,
         leaveBalance: req.body?.leaveBalance,
         createdDate: Date.now(),
         updatedDate: Date.now()

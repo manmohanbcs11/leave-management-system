@@ -5,7 +5,7 @@ export interface LeaveRequest extends Document {
   leaveType: string;
   startDate: number;
   endDate: number;
-  managerId: string;
+  managerIds: string[];
   status: string;
   comments: string;
   createdDate: number;
@@ -29,8 +29,8 @@ const leaveRequestSchema: Schema<LeaveRequest> = new Schema({
     type: Number,
     required: true
   },
-  managerId: {
-    type: String,
+  managerIds: {
+    type: [String],
     required: true
   },
   status: {

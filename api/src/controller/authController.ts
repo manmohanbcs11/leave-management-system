@@ -34,7 +34,7 @@ export class AuthController extends Util {
         role: userRole,
         department: req.body.department,
         jobTitle: req.body?.jobTitle,
-        managerId: req.body?.managerId,
+        managerIds: req.body?.managerIds,
         leaveBalance: req.body?.leaveBalance,
         createdDate: Date.now(),
         updatedDate: Date.now()

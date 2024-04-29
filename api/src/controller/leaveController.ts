@@ -63,11 +63,6 @@ export class LeaveController extends Util {
         return new ApiResponse(httpStatusCode.badRequest, `Requester Employee not found.`);
       }
 
-      const manager = await EmployeeModel.findById(req.body.managerId.toString()).exec();
-      if (Util.isEmpty(manager)) {
-        return new ApiResponse(httpStatusCode.badRequest, `Manager not found.`);
-      }
-
       req.body.createdDate = Date.now();
       req.body.updatedDate = Date.now();
       leave = await LeaveRequestModel.create(req.body);

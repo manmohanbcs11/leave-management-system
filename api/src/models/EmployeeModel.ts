@@ -9,7 +9,7 @@ export interface Employee extends Document {
   role: UserRole;
   department: string;
   jobTitle: string;
-  managerId: string;
+  managerIds: string[];
   leaveBalance: number;
   createdDate: number;
   updatedDate: number;
@@ -46,8 +46,8 @@ const employeeSchema: Schema<Employee> = new Schema({
   jobTitle: {
     type: String
   },
-  managerId: {
-    type: String
+  managerIds: {
+    type: [String]
   },
   leaveBalance: {
     type: Number

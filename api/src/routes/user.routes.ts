@@ -16,6 +16,11 @@ userRouter.get('/getuser', authorizer, async (req: Request, res: Response) => {
   await processRequest(userController.getuser, req, res);
 });
 
+// get user's manager details
+userRouter.get('/getmanagers', authorizer, async (req: Request, res: Response) => {
+  await processRequest(userController.getUserManagers, req, res);
+});
+
 // update user details
 userRouter.put('/updateuser', authorizer, async (req: Request, res: Response) => {
   await processRequest(userController.updateuser, req, res);
